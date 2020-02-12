@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+        <meta charset="utf-8" />
+        <title>GIT使用手册02</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Ops下一站</a></h1>
+                <nav><ul>
+                    <li class="active"><a href="/category/python.html">Python</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/a04.html" rel="bookmark"
+           title="Permalink to GIT使用手册02">GIT使用手册02</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2010-12-03T10:20:00+08:00">
+                Published: Fri 03 December 2010
+        </abbr>
+		<br />
+        <abbr class="modified" title="2010-12-05T19:30:00+08:00">
+                Updated: Sun 05 December 2010
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/qiao-miao-jue-qing.html">巧妙绝情</a>
+        </address>
+<p>In <a href="/category/python.html">Python</a>.</p>
+<p>tags: <a href="/tag/jia-gou.html">架构</a> <a href="/tag/docker.html">docker</a> <a href="/tag/wei-fu-wu.html">微服务</a> <a href="/tag/swarm-k8s.html">swarm k8s</a> <a href="/tag/zi-dong-hua.html">自动化</a> </p>
+</footer><!-- /.post-info -->      <p>GIT使用手册02</p>
+<p>1.Git安装
+1.1.在windows上安装git
+下载git安装包地址：https://git-scm.com/downloads
+双击安装即可，安装完成后，在开始菜单里找到“Git”-&gt;“Git Bash”，蹦出一个类似命令行窗口的东西，就说明Git安装成功！</p>
+<p>1.2.在centos上安装git
+执行命令：yum –y install git</p>
+<p>1.3.设置用户信息
+$ git config --global user.name "Your Name"
+$ git config --global user.email "email@example.com"
+执行以上命令后默认在C:/User/$USER目录下生成.gitconfig文件。
+命令当中--global表示你所有的项目都会默认使用这里配置的用户信息如果要在某个特定的项目中使用其他名字或者电邮，只要去掉 --global选项重新配置即可，新的设定保存在当前项目的 .git/config 文件里。
+2.创建Git仓库
+2.1.创建仓库
+首先创建一个空目录，然后进入这个目录执行git init就完成了本地仓库的创建。</p>
+<p>创建好本地库后在库目录中可以看到.git文件夹，所有 Git 需要的数据和资源都存放在这个目录中。</p>
+<p>3.Git基本操作
+3.1.添加文件到git库
+首先创建一个文件夹叫myproject，里面新增一个文件HelloWord.java，然后我们用：
+git add myproject/HelloWord.java</p>
+<p>回车后如果没有提示信息表示添加成功。
+然后通过git commit -m "my frist commit"把文件提交到仓库，提交时一定要加上-m参数用于添加描述，如果不加会提示Aborting commit due to empty commit message.
+提交成功后会提示1 file changed。
+这里说明一下git提交文件时需要两步，第一步先把文件add到暂存区，这里可以多次添加或一次添加多个文件，然后再commit到仓库中。
+3.2.修改文件并提交
+首先我们修改HelloWord.java文件，目录会显示红色，当完成提交后目录会变回绿色。</p>
+<p>我们可以通过git status命令来查看当前仓库状态</p>
+<p>我们可以看到提示我们有文件被改动而且没有提交。
+然后我们重复上一节提交文件操作后文件变回绿色</p>
+<p>3.3.回归版本
+当我们提交错误或是提交出现异常时，我们需要回归版本到之前的某个时间。
+首先我们可以通过git log查看文件的操作日志</p>
+<p>首先日志是按时间倒序排，git用HEAD表示当前版本，commit后面跟着一长串的字符是git每次提交的版本ID
+然后我们用git reset --hard commitId可以把文件回归到具体的某一个版本</p>
+<p>回归到某一版本后再查看日志会发现第二次提交己经没有了。注意commitID可以是前几位，不需要全写。节省了复制粘贴的麻烦。
+如果回归后还是错误的或是后悔了怎么办，还能回到之前的最新版本吗？
+我们可以用git reflog命令查看之前的每一次命令</p>
+<p>如图我们可以看到回归前的版本号是cc8112b,那么我们同样可以用git reset cc8112b回到最新版本</p>
+<p>3.4.撤销修改
+如果你的文件己经add了，但是没有commit，想撤回来该怎么办呢？git提供丢弃暂存区修改功能，我们使用git checkout --fileName 就可以让文件回到最近一次add或commit时的状。</p>
+<p>3.5.删除文件
+当你需要删除一个文件时，如果只在本地删除会导致本地与仓库不一致，面对这种情况git提供git rm fileName命令删除仓库文件，同时不要忘了commit。</p>
+<p>4.远程仓库GitLab
+4.1.GitLab服务器
+目前我们中心内部gitLab服务器地址是：http://gitlab.datalab.fun</p>
+<p>4.2.创建远程仓库</p>
+<p>登陆GitLab后会显示以上页面，我们点击Create a project</p>
+<p>Visibility Level这里我们选择Private私有，如非公有项目出于对代码安全考虑一般我们选择私有就好，然后我们点击Create project。</p>
+<p>出现以上页面说明创建工程成功了。</p>
+<p>4.3.添加SSH Key
+创建远程仓库成功后页面会提示：
+You won't be able to pull or push project code via SSH until you add an SSH key to your profile</p>
+<p>我们可以点进去或是User Settings &gt; SSH Keys进到添加页面</p>
+<p>要添加SSH key我们要去生成key值，我们回到自己电脑找到Git GUI并打开它</p>
+<p>Repository &gt; Open</p>
+<p>Help &gt; Show SSH Key 点击Generate Key</p>
+<p>密码可以自己设置或是直接设置为空，如果设置密码会在之后每次同步远程仓库时要求输入密码，如果嫌麻烦可以设为空。我们可以在C:\Users\$USER.ssh目录下看到我们生成的文件</p>
+<p>还有一种方式可以通过命令行的方式生成</p>
+<p>我们打开id_rsa.pub文件，复制里面的全部内容粘帖到gitLab上</p>
+<p>点击Add key完成添加。
+4.4.关联远程仓库
+目前我们本地有一个仓库，GitLab上也有一个仓库，这个时候就体现出git分布式版本控制的时候了，我们只需要把本地git仓库关联上远程仓库，通过提交上传就可以后别人享你的代码，而你本地仓库完全不影响你开发，这和集中式的版本控制有本质上的区别。
+那么我们要怎么让本地仓库关联远程仓库呢？只需要执行git命令：
+git remote add origin git@10.100.12.164:liuyunfeng/myproject.git
+注意：git@10.100.12.164:liuyunfeng/myproject.git就由gitLabtg 生成的</p>
+<p>4.5.同步远程仓库
+第一次同步的时候只需要执行git命令
+git push -u origin master     #Master表示当前主分支</p>
+<p>提交成功后我们可以到GitLab上查看我们的远程仓库看是否同步成功</p>
+<p>4.6.克隆远程仓库
+除了上面那种从本地仓库关联远程仓库的做法外，我们还可以直接在GitLab上新建一个工程，然后再通过克隆的方式同步到本地，git提供git clone xxx.git命令进行克隆</p>
+<p>4.7.提交代码到远程仓库
+当我们本地开发测试完成时我们需要提交代码到远程仓库中，git提供push命令实现
+git push origin master   #表示将将本地的master分支推送到origin主机的master分支</p>
+<p>4.8.同步远程仓库代码
+当别的同事提交把代码提交到远程仓库，我们刚好需要更新下来时git提供pull命令实现
+git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;
+git pull origin master:master  </p>
+<p>4.9.GitLab添加成员
+仓库创建完成后，我们需要添加我们的小伙伴到我们的项目中来，之前创建仓库时我们的工程是私有的，别人看不到，我们这时候就需要指定添加项目成员进来，这样就可以和小伙伴愉快的玩耍了。</p>
+<p>选择成员，选择角色，然后点击Add to project完成添加。</p>
+<p>这里需要注意的一点是，成员角色选Developer开发者，当成员提交代码到master时会提示成员没有权限提交，这时我们可以视项目情况来定是否给予这个权限，如果需要开通可以通过Settings &gt; Repository &gt; Protected Branches设置</p>
+<p>点击Protect添加规则。
+5.Git分支管理
+5.1.创建与合并分支
+当我们项目进行到一个里程碑时我们需要固化一个版本或者需要基于现有版本修复一个bug时，这个时候我们可以打一个分支用于存储或是修正。git提供git checkout -b branchName创建并切换分支，也可以创建分支git branch name再切换分支git checkout name.</p>
+<p>然后用git branch查看当前分支</p>
+<p>现在我们己经切换了分支，然后我们在dev分支上进行修改并提交</p>
+<p>现在我们的master分支和我们的dev分支己经不一致，当我们终于修改完bug需要把dev合并回master时该怎么办呢，我们需要先切换回master分支再合并dev分支到master分支</p>
+<p>合并完成后我们可以选择是否删除分支，如果确认以后不需要这个分支了可以选择删，避免后期分支过多并且不好维护的情况发生，git提供删除分支命令git branch -d dev</p>
+<p>5.2.冲突解决
+当我们创建分支开发时，master分支也要推进，这种情况下两个分支就会产生冲突，我们创建一个分支然后修改，再切换回master分支再修改，再合并我们来看一下会发生什么。</p>
+<p>然后我们打开HelloWord.java文件看会是什么情况</p>
+<p>Git采用&lt;&lt;&lt;&lt;  =====  &gt;&gt;&gt;&gt;来表示冲突的部分，我们手动编辑解决冲突后再次提交</p>
+<p>我们可以通过git log --graph --pretty=oneline --abbrev-commit命令来查看日志发现己经合并成功了。
+6.Git标签管理
+6.1.创建标签
+在我们开发过程中有个小版本我想标识一下该怎么办呢，git提供标签功能git tag name</p>
+<p>创建标签完成后可以git tag查看标签，需要注意的是标签是跟前commit走的，git可以指定commitId来给历史记录中的commit打标签。</p>
+<p>6.2.删除标签
+创建标签后我们可以通过git show tagname来查看标签详细信息</p>
+<p>如果我们发现标签打错了，或是想修改标签怎么办呢，git不提供直接update功能，但是我们可以先删后加，什么都阻档不了程序员的脚步。</p>
+<p>如果需要把标签同步到远程仓库，我们可以通过git push origin v1.0命令同步</p>
+<p>要删除远程仓库的标签可以在gitLab上直接操作，也可以通过命令
+git push origin :refs/tags/v1.0</p>
+<p>7.忽略文件
+7.1.忽略规则
+Java或python工程在开发过程中会生成很多.class、pyc编译文件或是build出来的临时jar包或者是.log文件，这些都不需要上传到git仓库的，那么我们怎么排除掉呢</p>
+<p>在工程目录下生成一个.gitignore文件，配置规则如下：</p>
+<h1>Compiled class file</h1>
+<p>*.class</p>
+<h1>Log file</h1>
+<p>*.log</p>
+<h1>BlueJ files</h1>
+<p>*.ctxt</p>
+<h1>Mobile Tools for Java (J2ME)</h1>
+<p>.mtj.tmp/</p>
+<h1>Package Files</h1>
+<p><em>.jar
+</em>.war
+<em>.nar
+</em>.ear
+<em>.zip
+</em>.tar.gz
+*.rar</p>
+<h1>virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml</h1>
+<p>hs_err_pid*
+注意.gitignore文件放到工程目录下只在当前工程生效，你也可以把这个设置成全局的
+git config --global core.excludesfile ~/.gitignore</p>
+<p>8.Git图形化客户端
+介绍了那么多git命令，大家经常用到的命令记住就好了，如果你不喜欢原生的命令行模式，别灰心，目前以经有好多款git图形化客户端任你选择
+TortoiseGit</p>
+<p>Eclipse – Egit</p>
+<p>GitEye</p>
+<p>还有很多不一一列举，有兴趣可以问度娘，总有一款适合你。</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
